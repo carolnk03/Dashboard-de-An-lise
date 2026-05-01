@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Análise| Portfólio</title>
+
+    <!-- fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- sobreposição para mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- menu lateral -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>AnalyticsPro</span>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item active">
+                    <a href="#dashboard" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#analytics" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#users" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Usuários</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#messages" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Mensagens</span>
+                        <span class="badge">12</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#config" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-card">
+                <img src="https://i.pravatar.cc/40" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name">João Silva</span>
+                    <span class="user-role">Admin</span>
+                </div>
+                <button class="btn-logout" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- conteúdo principal -->
+    <main class="main-content">
+        <!-- cabeçalho -->
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-menu" id="btnMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <!-- alterar tema -->
+                <button class="btn-icon theme-toggle" id="themeToggle" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- notificações -->
+                <button class="btn-icon notification-btn" title="Notificações">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <!-- perfil -->
+                <div class="profile-menu">
+                    <button class="btn-profile" id="profileBtn">
+                        <img src="https://i.pravatar.cc/32" alt="Perfil" class="perfil-img">
+                        <span>João</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Perfil
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Configurações
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- área de conteúdo -->
+        <div class="content-area">
+            <!-- cabeçalho -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-description">Bem-vindo de volta, João! Aqui está o resumo do seu negócio.</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Novo Relatório
+                    </button>
+                </div>
+            </div>
+
+            <!-- estatísticas -->
+            <div class="stats-grid">
+                <div class="stat-card animate-in">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #6C5CE7, #a855f7);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Receita Total</span>
+                        <span class="stat-value">R$ 45.231,89</span>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 12.5%
+                        </span>
+                    </div>
+                    <div class="stat-chart">
+                        <canvas id="sparkline1" height="40"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card animate-in">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #00CEC9, #00b894);">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Vendas</span>
+                        <span class="stat-value">2.345</span>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 8.2%
+                        </span>
+                    </div>
+                    <div class="stat-chart">
+                        <canvas id="sparkline2" height="40"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card animate-in">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #fdcb6e, #f39c12);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Novos Usuários</span>
+                        <span class="stat-value">1.893</span>
+                        <span class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i> 3.1%
+                        </span>
+                    </div>
+                    <div class="stat-chart">
+                        <canvas id="sparkline3" height="40"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card animate-in">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #e17055, #d63031);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Taxa de Conversão</span>
+                        <span class="stat-value">3.24%</span>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 4.7%
+                        </span>
+                    </div>
+                    <div class="stat-chart">
+                        <canvas id="sparkline4" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- grade de gráficos -->
+            <div class="charts-grid">
+                <!-- gráfico de receita -->
+                <div class="chart-card animate-in">
+                    <div class="chart-header">
+                        <h3>Receita nos Últimos 12 Meses</h3>
+                        <div class="chart-actions">
+                            <button class="btn-chart-action active" data-period="year">Ano</button>
+                            <button class="btn-chart-action" data-period="month">Mês</button>
+                            <button class="btn-chart-action" data-period="week">Semana</button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- gráfico de tráfego -->
+                <div class="chart-card animate-in">
+                    <div class="chart-header">
+                        <h3>Fontes de Tráfego</h3>
+                        <button class="btn-icon" title="Mais opções">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tabela de pedidos  -->
+            <div class="table-card animate-in">
+                <div class="table-header">
+                    <h3>Pedidos Recentes</h3>
+                    <button class="btn btn-link">Ver todos <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Pedido</th>
+                                <th>Cliente</th>
+                                <th>Produto</th>
+                                <th>Data</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-7845</td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://i.pravatar.cc/24?img=1" alt="Customer">
+                                        <span>Maria Santos</span>
+                                    </div>
+                                </td>
+                                <td>Pro Plan</td>
+                                <td>15/01/2024</td>
+                                <td>R$ 299,90</td>
+                                <td><span class="status-badge status-success">Concluído</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-7846</td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://i.pravatar.cc/24?img=2" alt="Customer">
+                                        <span>Pedro Costa</span>
+                                    </div>
+                                </td>
+                                <td>Basic Plan</td>
+                                <td>15/01/2024</td>
+                                <td>R$ 99,90</td>
+                                <td><span class="status-badge status-pending">Pendente</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-7847</td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://i.pravatar.cc/24?img=3" alt="Customer">
+                                        <span>Ana Oliveira</span>
+                                    </div>
+                                </td>
+                                <td>Enterprise</td>
+                                <td>14/01/2024</td>
+                                <td>R$ 999,90</td>
+                                <td><span class="status-badge status-success">Concluído</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-7848</td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://i.pravatar.cc/24?img=4" alt="Customer">
+                                        <span>Lucas Ferreira</span>
+                                    </div>
+                                </td>
+                                <td>Pro Plan</td>
+                                <td>14/01/2024</td>
+                                <td>R$ 299,90</td>
+                                <td><span class="status-badge status-cancelled">Cancelado</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-7849</td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://i.pravatar.cc/24?img=5" alt="Customer">
+                                        <span>Carla Lima</span>
+                                    </div>
+                                </td>
+                                <td>Basic Plan</td>
+                                <td>13/01/2024</td>
+                                <td>R$ 99,90</td>
+                                <td><span class="status-badge status-success">Concluído</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

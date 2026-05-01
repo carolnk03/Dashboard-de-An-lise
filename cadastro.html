@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta | AnalyticsPro</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .cadastro-container {
+            width: 100%;
+            max-width: 520px;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cadastro-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .cadastro-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cadastro-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6C5CE7, #a855f7);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4);
+        }
+
+        .cadastro-header h1 {
+            font-size: 1.8rem;
+            color: #2d3436;
+            margin-bottom: 8px;
+        }
+
+        .cadastro-header p {
+            color: #636e72;
+            font-size: 0.95rem;
+        }
+
+        /* barra de progresso */
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            right: 20px;
+            height: 4px;
+            background: #e9ecef;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            height: 4px;
+            background: linear-gradient(90deg, #6C5CE7, #a855f7);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+
+        .progress-step {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 3;
+            transition: all 0.5s ease;
+            color: #b2bec3;
+            position: relative;
+        }
+
+        .progress-step.active {
+            border-color: #6C5CE7;
+            background: #6C5CE7;
+            color: white;
+            box-shadow: 0 0 0 6px rgba(108, 92, 231, 0.15);
+        }
+
+        .progress-step.completed {
+            border-color: #00b894;
+            background: #00b894;
+            color: white;
+        }
+
+        .progress-step.completed::after {
+            content: '✓';
+            font-size: 0.7rem;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #b2bec3;
+            font-weight: 500;
+        }
+
+        .progress-label {
+            text-align: center;
+            width: 32px;
+        }
+
+        .progress-label.active {
+            color: #6C5CE7;
+            font-weight: 600;
+        }
+
+        /* formulário */
+        .form-step {
+            display: none;
+            animation: fadeSlideIn 0.5s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3436;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b2bec3;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8f9fe;
+            color: #2d3436;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6C5CE7;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+        }
+
+        .form-input.input-error {
+            border-color: #e17055;
+            background: #fff5f5;
+        }
+
+        .form-input.input-success {
+            border-color: #00b894;
+            background: #f0fff4;
+        }
+
+        .input-wrapper:focus-within i {
+            color: #6C5CE7;
+        }
+
+        /* indicador de força da senha */
+        .password-strength {
+            margin-top: 12px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            border-radius: 2px;
+            background: #e9ecef;
+            margin-bottom: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .strength-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease, background 0.3s;
+            width: 0%;
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .strength-requirements {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-top: 12px;
+            font-size: 0.78rem;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #b2bec3;
+            transition: color 0.3s;
+        }
+
+        .requirement.met {
+            color: #00b894;
+        }
+
+        .requirement i {
+            font-size: 0.7rem;
+            width: 14px;
+            text-align: center;
+        }
+
+        .requirement.met i {
+            color: #00b894;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #b2bec3;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            z-index: 1;
+        }
+
+        .password-toggle:hover {
+            color: #6C5CE7;
+        }
+
+        /* checkbox */
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #6C5CE7;
+            cursor: pointer;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .terms-checkbox span {
+            font-size: 0.9rem;
+            color: #636e72;
+            line-height: 1.4;
+        }
+
+        .terms-checkbox a {
+            color: #6C5CE7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        /* botões de navegação */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, #6C5CE7, #a855f7);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #636e72;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            border-color: #6C5CE7;
+            color: #6C5CE7;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #636e72;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-outline:hover {
+            border-color: #6C5CE7;
+            color: #6C5CE7;
+        }
+
+        /* mensagens */
+        .error-message {
+            background: #ffeaa7;
+            color: #d63031;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: none;
+            animation: shake 0.5s ease;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        .success-message {
+            background: #00b894;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            text-align: center;
+            display: none;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: #6C5CE7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* partículas */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+            }
+        }
+
+        /* responsivo */
+        @media (max-width: 600px) {
+            .cadastro-card {
+                padding: 32px 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .strength-requirements {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- partículas de fundo - animação de fundo -->
+    <div class="particles" id="particles"></div>
+
+    <div class="cadastro-container">
+        <div class="cadastro-card">
+            <!-- cabeçalho -->
+            <div class="cadastro-header">
+                <div class="cadastro-logo">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1>Criar Conta</h1>
+                <p>Preencha os dados para começar</p>
+            </div>
+
+            <!-- barra de progresso -->
+            <div style="padding: 0 20px; position: relative;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                    <div class="progress-step active" id="step1">1</div>
+                    <div class="progress-step" id="step2">2</div>
+                    <div class="progress-step" id="step3">3</div>
+                </div>
+                <div class="progress-labels">
+                    <span class="progress-label active" id="label1">Dados</span>
+                    <span class="progress-label" id="label2">Conta</span>
+                    <span class="progress-label" id="label3">Senha</span>
+                </div>
+            </div>
+
+            <!-- mensagem de erro -->
+            <div class="error-message" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <!-- formulário -->
+            <form id="cadastroForm">
+                <!-- Etapa 1: Dados Pessoais -->
+                <div class="form-step active" id="stepContent1">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Nome *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="firstName" class="form-input" placeholder="Seu nome" required
+                                    autocomplete="given-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Sobrenome *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="lastName" class="form-input" placeholder="Seu sobrenome" required
+                                    autocomplete="family-name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefone (opcional)</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" class="form-input" placeholder="(11) 98765-4321"
+                                autocomplete="tel">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- etapa 2: Conta -->
+                <div class="form-step" id="stepContent2">
+                    <div class="form-group">
+                        <label for="email">E-mail *</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" class="form-input" placeholder="seu@email.com" required
+                                autocomplete="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Nome de usuário (opcional)</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-at"></i>
+                            <input type="text" id="username" class="form-input" placeholder="seu_username"
+                                autocomplete="username">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                            <i class="fas fa-arrow-left"></i> Voltar
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- etapa 3: Senha -->
+                <div class="form-step" id="stepContent3">
+                    <div class="form-group">
+                        <label for="password">Senha *</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" class="form-input" placeholder="Mínimo 8 caracteres"
+                                required minlength="8" autocomplete="new-password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <!-- senha -->
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strengthFill"></div>
+                            </div>
+                            <div class="strength-text" id="strengthText">
+                                <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                                <span>Digite uma senha</span>
+                            </div>
+                            <div class="strength-requirements">
+                                <div class="requirement" id="reqLength">
+                                    <i class="fas fa-circle"></i> Mínimo 8 caracteres
+                                </div>
+                                <div class="requirement" id="reqUpper">
+                                    <i class="fas fa-circle"></i> Letra maiúscula
+                                </div>
+                                <div class="requirement" id="reqLower">
+                                    <i class="fas fa-circle"></i> Letra minúscula
+                                </div>
+                                <div class="requirement" id="reqNumber">
+                                    <i class="fas fa-circle"></i> Número
+                                </div>
+                                <div class="requirement" id="reqSpecial">
+                                    <i class="fas fa-circle"></i> Caractere especial
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Senha *</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" class="form-input" placeholder="Repita a senha"
+                                required autocomplete="new-password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="passwordMatch" style="margin-top: 8px; font-size: 0.85rem; display: none;">
+                            <i class="fas fa-check-circle" style="color: #00b894;"></i>
+                            <span style="color: #00b894; font-weight: 600;">Senhas coincidem!</span>
+                        </div>
+                        <div id="passwordMismatch" style="margin-top: 8px; font-size: 0.85rem; display: none;">
+                            <i class="fas fa-times-circle" style="color: #d63031;"></i>
+                            <span style="color: #d63031; font-weight: 600;">Senhas não coincidem!</span>
+                        </div>
+                    </div>
+
+                    <!-- termos -->
+                    <label class="terms-checkbox">
+                        <input type="checkbox" id="acceptTerms" required>
+                        <span>Eu aceito os <a href="#" onclick="alert('Termos de Uso serão exibidos aqui.')">Termos de
+                                Uso</a> e a <a href="#"
+                                onclick="alert('Política de Privacidade será exibida aqui.')">Política de
+                                Privacidade</a></span>
+                    </label>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                            <i class="fas fa-arrow-left"></i> Voltar
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="fas fa-check"></i> Criar Conta
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- mensagem de sucesso -->
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle" style="font-size: 3rem; display: block; margin-bottom: 16px;"></i>
+                <h2 style="margin-bottom: 8px;">Conta criada com sucesso!</h2>
+                <p>Redirecionando para o dashboard...</p>
+            </div>
+
+            <div class="login-link" id="loginLink">
+                Já tem uma conta? <a href="login.html">Faça login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // partículas de fundo
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 12 + 4) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // etapas do formulário
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        function updateProgress(step) {
+            // atualizar barra de progresso
+            const progressPercent = ((step - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+
+            // atualizar steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.getElementById('step' + i);
+                const labelEl = document.getElementById('label' + i);
+                const contentEl = document.getElementById('stepContent' + i);
+
+                stepEl.classList.remove('active', 'completed');
+                labelEl.classList.remove('active');
+
+                if (i < step) {
+                    stepEl.classList.add('completed');
+                    stepEl.textContent = '';
+                } else if (i === step) {
+                    stepEl.classList.add('active');
+                    stepEl.textContent = i;
+                    labelEl.classList.add('active');
+                } else {
+                    stepEl.textContent = i;
+                }
+
+                // mostrar/esconder conteúdo
+                if (contentEl) {
+                    contentEl.classList.remove('active');
+                    if (i === step) {
+                        contentEl.classList.add('active');
+                    }
+                }
+            }
+
+            currentStep = step;
+        }
+
+        function nextStep(currentStepNum) {
+            // validar campos da etapa atual
+            if (!validateStep(currentStepNum)) {
+                return;
+            }
+
+            if (currentStepNum < totalSteps) {
+                updateProgress(currentStepNum + 1);
+                // scroll no topo do card
+                document.querySelector('.cadastro-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function prevStep(currentStepNum) {
+            if (currentStepNum > 1) {
+                updateProgress(currentStepNum - 1);
+                document.querySelector('.cadastro-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function validateStep(step) {
+            const errorMsg = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorMsg.classList.remove('show');
+
+            switch (step) {
+                case 1:
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+
+                    if (!firstName) {
+                        showError('Por favor, preencha o nome.');
+                        document.getElementById('firstName').focus();
+                        return false;
+                    }
+                    if (firstName.length < 2) {
+                        showError('O nome deve ter pelo menos 2 caracteres.');
+                        document.getElementById('firstName').focus();
+                        return false;
+                    }
+                    if (!lastName) {
+                        showError('Por favor, preencha o sobrenome.');
+                        document.getElementById('lastName').focus();
+                        return false;
+                    }
+                    if (lastName.length < 2) {
+                        showError('O sobrenome deve ter pelo menos 2 caracteres.');
+                        document.getElementById('lastName').focus();
+                        return false;
+                    }
+                    return true;
+
+                case 2:
+                    const email = document.getElementById('email').value.trim();
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                    if (!email) {
+                        showError('Por favor, preencha o e-mail.');
+                        document.getElementById('email').focus();
+                        return false;
+                    }
+                    if (!emailRegex.test(email)) {
+                        showError('Por favor, insira um e-mail válido.');
+                        document.getElementById('email').focus();
+                        return false;
+                    }
+                    return true;
+
+                case 3:
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    const acceptTerms = document.getElementById('acceptTerms').checked;
+
+                    if (!password) {
+                        showError('Por favor, crie uma senha.');
+                        document.getElementById('password').focus();
+                        return false;
+                    }
+                    if (password.length < 8) {
+                        showError('A senha deve ter no mínimo 8 caracteres.');
+                        document.getElementById('password').focus();
+                        return false;
+                    }
+                    if (!checkPasswordStrength(password).score >= 3) {
+                        showError('A senha é muito fraca. Use letras maiúsculas, minúsculas, números e caracteres especiais.');
+                        document.getElementById('password').focus();
+                        return false;
+                    }
+                    if (password !== confirmPassword) {
+                        showError('As senhas não coincidem.');
+                        document.getElementById('confirmPassword').focus();
+                        return false;
+                    }
+                    if (!acceptTerms) {
+                        showError('Você precisa aceitar os Termos de Uso e Política de Privacidade.');
+                        return false;
+                    }
+                    return true;
+            }
+            return true;
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = message;
+            errorMsg.classList.add('show');
+
+            // resetar animação
+            errorMsg.style.animation = 'none';
+            errorMsg.offsetHeight;
+            errorMsg.style.animation = 'shake 0.5s ease';
+
+            // esconder após 4 segundos
+            setTimeout(() => {
+                errorMsg.classList.remove('show');
+            }, 4000);
+        }
+
+        // senha
+        <!-- function checkPasswordStrength(password) {
+            let score = 0;
+            const requirements = {
+                length: password.length >= 8,
+                upper: /[A-Z]/.test(password),
+                lower: /[a-z]/.test(password),
+                number: /[0-9]/.test(password),
+                special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            };
+
+            if (requirements.length) score++;
+            if (requirements.upper) score++;
+            if (requirements.lower) score++;
+            if (requirements.number) score++;
+            if (requirements.special) score++;
+
+            return { score, requirements };
+        } -->
+
+        document.getElementById('password').addEventListener('input', function () {
+            const password = this.value;
+            const result = checkPasswordStrength(password);
+
+            // Atualizar barra de força
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            const percentages = [0, 20, 40, 60, 80, 100];
+            const colors = ['#e9ecef', '#d63031', '#fdcb6e', '#f39c12', '#00b894', '#00b894'];
+            const labels = [
+                'Digite uma senha',
+                'Muito fraca',
+                'Fraca',
+                'Média',
+                'Forte',
+                'Muito forte'
+            ];
+            const icons = [
+                'fas fa-circle',
+                'fas fa-times-circle',
+                'fas fa-exclamation-circle',
+                'fas fa-exclamation-triangle',
+                'fas fa-check-circle',
+                'fas fa-shield-alt'
+            ];
+
+            const scoreIndex = password.length === 0 ? 0 : result.score;
+            strengthFill.style.width = percentages[scoreIndex] + '%';
+            strengthFill.style.background = colors[scoreIndex];
+            strengthText.innerHTML = `<i class="${icons[scoreIndex]}" style="font-size: 0.7rem; color: ${colors[scoreIndex]};"></i><span style="color: ${colors[scoreIndex]};">${labels[scoreIndex]}</span>`;
+
+            // Atualizar requisitos
+            const reqMap = {
+                'reqLength': result.requirements.length,
+                'reqUpper': result.requirements.upper,
+                'reqLower': result.requirements.lower,
+                'reqNumber': result.requirements.number,
+                'reqSpecial': result.requirements.special
+            };
+
+            Object.keys(reqMap).forEach(id => {
+                const el = document.getElementById(id);
+                if (reqMap[id]) {
+                    el.classList.add('met');
+                    el.querySelector('i').className = 'fas fa-check-circle';
+                } else {
+                    el.classList.remove('met');
+                    el.querySelector('i').className = 'fas fa-circle';
+                }
+            });
+
+            // Verificar se as senhas coincidem
+            checkPasswordMatch();
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const matchEl = document.getElementById('passwordMatch');
+            const mismatchEl = document.getElementById('passwordMismatch');
+
+            if (confirmPassword.length === 0) {
+                matchEl.style.display = 'none';
+                mismatchEl.style.display = 'none';
+            } else if (password === confirmPassword) {
+                matchEl.style.display = 'block';
+                mismatchEl.style.display = 'none';
+            } else {
+                matchEl.style.display = 'none';
+                mismatchEl.style.display = 'block';
+            }
+        }
+
+        // ==================== TOGGLE SENHA ====================
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
+
+            // Atualizar ícone
+            const btn = input.nextElementSibling;
+            if (btn) {
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+                }
+            }
+        }
+
+        // ==================== SUBMISSÃO DO FORMULÁRIO ====================
+        document.getElementById('cadastroForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Validar etapa final
+            if (!validateStep(3)) {
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalHTML = submitBtn.innerHTML;
+
+            // Mostrar loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
+
+            // Simular requisição
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Coletar dados
+            const userData = {
+                firstName: document.getElementById('firstName').value.trim(),
+                lastName: document.getElementById('lastName').value.trim(),
+                name: document.getElementById('firstName').value.trim() + ' ' + document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim() || '(11) 98765-4321',
+                username: document.getElementById('username').value.trim(),
+                location: 'São Paulo, SP',
+                website: '',
+                bio: '',
+                role: 'Usuário',
+                avatar: 'https://i.pravatar.cc/150?u=' + Date.now(),
+                createdAt: new Date().toISOString()
+            };
+
+            // Salvar dados
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('isLoggedIn', 'true');
+
+            // Mostrar sucesso
+            document.getElementById('cadastroForm').style.display = 'none';
+            document.getElementById('loginLink').style.display = 'none';
+            document.getElementById('successMessage').classList.add('show');
+
+            // Redirecionar
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2500);
+        });
+
+        // ==================== MÁSCARA DE TELEFONE ====================
+        document.getElementById('phone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+
+            if (value.length > 0) {
+                value = '(' + value;
+            }
+            if (value.length > 3) {
+                value = value.slice(0, 3) + ') ' + value.slice(3);
+            }
+            if (value.length > 10) {
+                value = value.slice(0, 10) + '-' + value.slice(10);
+            }
+
+            e.target.value = value;
+        });
+
+        console.log('📝 Página de cadastro carregada com sucesso!');
+    </script>
+</body>
+
+</html>
